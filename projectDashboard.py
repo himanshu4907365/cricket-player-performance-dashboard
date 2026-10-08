@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import base64
 
 # ============================================================
 # PAGE CONFIGURATION
@@ -18,68 +17,134 @@ st.set_page_config(
 # CUSTOM CSS
 # ============================================================
 
+# ============================================================
+# CUSTOM CSS + ANIMATIONS + BACKGROUND
+# ============================================================
+
 st.markdown(
     """
     <style>
+
+    /* Main page */
     .main {
         padding-top: 1rem;
     }
 
+    /* Background */
+    .stApp {
+        background-image:
+            linear-gradient(
+                rgba(0, 0, 0, 0.68),
+                rgba(0, 0, 0, 0.68)
+            ),
+            url("background.jpg");
+
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: rgba(0, 0, 0, 0.78);
+    }
+
+    /* Dashboard title animation */
     .dashboard-title {
-        font-size: 38px;
+        font-size: 42px;
         font-weight: 700;
-        margin-bottom: 0px;
+        margin-bottom: 5px;
+
+        animation:
+            fadeInDown 1.2s ease-out;
     }
 
+    /* Subtitle animation */
     .dashboard-subtitle {
-        font-size: 17px;
+        font-size: 18px;
         margin-bottom: 25px;
+
+        animation:
+            fadeIn 1.8s ease-in;
     }
 
-    div[data-testid="stMetric"] {
-        border: 1px solid #dddddd;
-        padding: 15px;
-        border-radius: 10px;
+    /* Fade animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
+
+    /* Slide-down animation */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* KPI cards */
+    div[data-testid="stMetric"] {
+        background: rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 18px;
+        border-radius: 14px;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+
+        animation:
+            fadeIn 1.5s ease-in;
+    }
+
+    /* KPI hover effect */
+    div[data-testid="stMetric"]:hover {
+        transform: translateY(-6px);
+
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Buttons */
+    .stButton > button {
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .stButton > button:hover {
+        transform: scale(1.03);
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Tables */
+    [data-testid="stDataFrame"] {
+        animation:
+            fadeIn 1.5s ease-in;
+    }
+
+    /* Section headings */
+    h1, h2, h3 {
+        animation:
+            fadeIn 1s ease-in;
+    }
+
     </style>
     """,
     unsafe_allow_html=True
 )
-# ============================================================
-# BACKGROUND IMAGE
-# ============================================================
-
-def set_background(image_file):
-    with open(image_file, "rb") as image:
-        encoded_image = base64.b64encode(image.read()).decode()
-
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image:
-                linear-gradient(
-                    rgba(0, 0, 0, 0.65),
-                    rgba(0, 0, 0, 0.65)
-                ),
-                url("data:image/jpeg;base64,{encoded_image}");
-
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
-
-        [data-testid="stSidebar"] {{
-            background-color: rgba(0, 0, 0, 0.75);
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-set_background("background.jpg")
-
 
 # ============================================================
 # TITLE
