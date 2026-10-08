@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import base64
 # ============================================================
 # PAGE CONFIGURATION
 # ============================================================
@@ -140,6 +140,42 @@ st.markdown(
         animation:
             fadeIn 1s ease-in;
     }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+# ============================================================
+# BACKGROUND IMAGE
+# ============================================================
+
+def get_base64_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
+
+
+background_image = get_base64_image("background.jpg")
+
+st.markdown(
+    f"""
+    <style>
+
+    .stApp {{
+        background-image:
+            linear-gradient(
+                rgba(0, 0, 0, 0.68),
+                rgba(0, 0, 0, 0.68)
+            ),
+            url("data:image/jpeg;base64,{background_image}");
+
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+
+    [data-testid="stSidebar"] {{
+        background: rgba(0, 0, 0, 0.80);
+    }}
 
     </style>
     """,
