@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import base64
 
 # ============================================================
 # PAGE CONFIGURATION
@@ -45,6 +45,40 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# ============================================================
+# BACKGROUND IMAGE
+# ============================================================
+
+def set_background(image_file):
+    with open(image_file, "rb") as image:
+        encoded_image = base64.b64encode(image.read()).decode()
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.65),
+                    rgba(0, 0, 0, 0.65)
+                ),
+                url("data:image/jpeg;base64,{encoded_image}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+
+        [data-testid="stSidebar"] {{
+            background-color: rgba(0, 0, 0, 0.75);
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+set_background("background.jpg")
 
 
 # ============================================================
