@@ -12,11 +12,6 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# ============================================================
-# CUSTOM CSS
-# ============================================================
-
 # ============================================================
 # CUSTOM CSS + ANIMATIONS + BACKGROUND
 # ============================================================
@@ -197,7 +192,13 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+# Player dropdown — shows all available players
+player_list = sorted(df["Player"].dropna().unique().tolist())
 
+selected_player = st.selectbox(
+    "Search or select a player",
+    options=["All Players"] + player_list
+)
 
 # ============================================================
 # DATA LOADING
