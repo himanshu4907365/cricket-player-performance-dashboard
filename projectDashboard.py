@@ -192,13 +192,6 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
-# Player dropdown — shows all available players
-player_list = sorted(df["Player"].dropna().unique().tolist())
-
-selected_player = st.selectbox(
-    "Search or select a player",
-    options=["All Players"] + player_list
-)
 
 # ============================================================
 # DATA LOADING
@@ -322,8 +315,17 @@ def load_data():
 
 
 # Load data
+
+# Load data
 df = load_data()
 
+# Player dropdown — includes all players in the dataset
+player_list = sorted(df["Player"].dropna().unique().tolist())
+
+selected_player = st.selectbox(
+    "Search or select a player",
+    options=["All Players"] + player_list
+)
 
 # ============================================================
 # SIDEBAR FILTERS
@@ -338,9 +340,12 @@ selected_format = st.sidebar.selectbox(
     format_options
 )
 
-player_search = st.sidebar.text_input(
-    "Search Player",
-    placeholder="Enter player name..."
+
+player_list = sorted(df["Player"].dropna().unique().tolist())
+
+selected_player = st.sidebar.selectbox(
+    "Search or Select Player",
+    options=["All Players"] + player_list
 )
 
 min_matches = st.sidebar.slider(
@@ -369,10 +374,10 @@ if selected_format != "All":
         filtered_df["Format"] == selected_format
     ]
 
-if player_search:
+
+if selected_player != "All Players":
     filtered_df = filtered_df[
-        filtered_df["Player"]
-        .str.contains(player_search, case=False, na=False)
+        filtered_df["Player"] == selected_player
     ]
 
 filtered_df = filtered_df[
