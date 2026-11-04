@@ -830,12 +830,12 @@ st.download_button(
 
 
 # ============================================================
-# PROJECT NOTES
+# PROJECT NOTES & DATASET DOWNLOADS
 # ============================================================
 
 st.divider()
 
-st.subheader("ℹ️ Project Notes")
+st.subheader("ℹ️ Project Notes & Dataset Downloads")
 
 st.write(
     """
@@ -850,13 +850,55 @@ st.write(
     Balls Faced (BF) or Strike Rate (SR). Therefore, BF and SR
     analyses are available only for formats where these variables
     exist.
-
-    **Interpretation:** Format-level averages are descriptive
-    comparisons of the players represented in each dataset. They
-    should not be interpreted as proof that one cricket format is
-    inherently easier or harder than another.
     """
 )
+
+st.markdown("### 📥 Download Original Datasets")
+
+# Helper function to read and convert files for downloading
+@st.cache_data
+def get_file_bytes(file_path):
+    with open(file_path, "rb") as f:
+        return f.read()
+
+# Create 3 columns for the download buttons side-by-side
+d_col1, d_col2, d_col3 = st.columns(3)
+
+with d_col1:
+    try:
+        odi_bytes = get_file_bytes("odb.csv")
+        st.download_button(
+            label="Download ODI Dataset",
+            data=odi_bytes,
+            file_name="odb.csv",
+            mime="text/csv"
+        )
+    except FileNotFoundError:
+        st.error("odb.csv not found")
+
+with d_col2:
+    try:
+        t20_bytes = get_file_bytes("tb.csv")
+        st.download_button(
+            label="Download T20 Dataset",
+            data=t20_bytes,
+            file_name="tb.csv",
+            mime="text/csv"
+        )
+    except FileNotFoundError:
+        st.error("tb.csv not found")
+
+with d_col3:
+    try:
+        test_bytes = get_file_bytes("twb.csv")
+        st.download_button(
+            label="Download Test Dataset",
+            data=test_bytes,
+            file_name="twb.csv",
+            mime="text/csv"
+        )
+    except FileNotFoundError:
+        st.error("twb.csv not found")
 
 
 # ============================================================
