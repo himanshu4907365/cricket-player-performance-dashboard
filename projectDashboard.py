@@ -319,14 +319,6 @@ def load_data():
 # Load data
 df = load_data()
 
-# Player dropdown — includes all players in the dataset
-player_list = sorted(df["Player"].dropna().unique().tolist())
-
-selected_player = st.selectbox(
-    "Search or select a player",
-    options=["All Players"] + player_list
-)
-
 # ============================================================
 # SIDEBAR FILTERS
 # ============================================================
@@ -339,7 +331,6 @@ selected_format = st.sidebar.selectbox(
     "Select Format",
     format_options
 )
-
 
 player_list = sorted(df["Player"].dropna().unique().tolist())
 
@@ -361,7 +352,6 @@ top_n = st.sidebar.slider(
     max_value=20,
     value=10
 )
-
 
 # ============================================================
 # APPLY FILTERS
